@@ -6,4 +6,4 @@ This node subscribes to `/points_raw`, `/points_map` and `/current_pose` and cro
 
 1. Create a ROS workspace and place this node within the `src` directory.  
 2. Run `catkin_make --pkg map_reduction` if multiple packages are present within the workspace.
-3. If running on an AVL Docker container, please ensure that the package dependencies are met: `pcl_ros`, `pcl_conversions`.
+3. Please ensure that the package dependencies are met if running outside Docker: `pcl_ros`, `pcl_conversions`.
