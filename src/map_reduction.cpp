@@ -9,7 +9,8 @@
 #include <pcl/point_cloud.h>
 #include <pcl_conversions/pcl_conversions.h>
 
-#define CLIP_X 60
+#define CLIP_X_MAX 60
+#define CLIP_X_MIN 10
 #define CLIP_Y 10
 #define CLIP_Z 10
 #define CYCLE 10
@@ -70,8 +71,8 @@ void lidar_callback(const sensor_msgs::PointCloud2::ConstPtr& msg){
     }
     pcl::CropBox<pcl::PCLPointCloud2> crop_filter;
     crop_filter.setInputCloud(pcd_map_ptr);
-    crop_filter.setMin(Eigen::Vector4f(      0, -CLIP_Y, -CLIP_Z, 0));
-    crop_filter.setMax(Eigen::Vector4f( CLIP_X,  CLIP_Y,  CLIP_Z, 0));
+    crop_filter.setMin(Eigen::Vector4f( CLIP_X_MIN, -CLIP_Y, -CLIP_Z, 0));
+    crop_filter.setMax(Eigen::Vector4f( CLIP_X_MAX,  CLIP_Y,  CLIP_Z, 0));
     crop_filter.setTranslation(Eigen::Vector3f(veh_pose.x, 
                                              veh_pose.y, 
                                              veh_pose.z));
