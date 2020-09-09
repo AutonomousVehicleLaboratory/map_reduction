@@ -9,11 +9,11 @@
 #include <pcl/point_cloud.h>
 #include <pcl_conversions/pcl_conversions.h>
 
-#define CLIP_X_MAX 60
-#define CLIP_X_MIN 10
-#define CLIP_Y 10
-#define CLIP_Z 10
-#define CYCLE 10
+#define CLIP_X_MAX 60 // max distance in x from pose
+#define CLIP_X_MIN 0  // min distance in x from pose
+#define CLIP_Y 10     // clip on both size of y, (-10, 10)
+#define CLIP_Z 10     // clip on both size of z, (-10, 10)
+#define CYCLE 5       // publish cycle, to prevent lag
 
 //#include <pcl/point_cloud.h>
 
@@ -66,9 +66,12 @@ void lidar_callback(const sensor_msgs::PointCloud2::ConstPtr& msg){
   //ROS_INFO("Received lidar data.");
   if(map_width != 0){
     counter += 1;
+
+    // publish at a reduced rate compared to lidar scan
     if (counter % CYCLE != 0){
       return;
     }
+
     pcl::CropBox<pcl::PCLPointCloud2> crop_filter;
     crop_filter.setInputCloud(pcd_map_ptr);
     crop_filter.setMin(Eigen::Vector4f( CLIP_X_MIN, -CLIP_Y, -CLIP_Z, 0));
